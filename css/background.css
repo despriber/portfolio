@@ -1,0 +1,156 @@
+/* Background Switcher Styles */
+
+#bg-switcher {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 1000;
+}
+
+.bg-switch-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #b48f5f;
+}
+
+.bg-switch-btn:hover {
+    background: rgba(50, 50, 50, 0.9);
+    border-color: rgba(180, 143, 95, 0.3);
+    transform: scale(1.05);
+}
+
+.bg-switch-btn svg {
+    width: 22px;
+    height: 22px;
+    transition: transform 0.5s ease;
+}
+
+.bg-switch-btn:hover svg {
+    transform: rotate(180deg);
+}
+
+.bg-menu {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 12px;
+    min-width: 200px;
+    backdrop-filter: blur(20px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.bg-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.bg-menu-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 8px 12px;
+    margin-bottom: 4px;
+}
+
+.bg-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.bg-option:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.bg-option.active {
+    background: rgba(180, 143, 95, 0.15);
+    color: #b48f5f;
+}
+
+.bg-option-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.bg-option.active .bg-option-icon {
+    opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #bg-switcher {
+        bottom: 20px;
+        left: 20px;
+    }
+
+    .bg-switch-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .bg-switch-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .bg-menu {
+        min-width: 180px;
+    }
+
+    .bg-option {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Animation for active state indicator */
+.bg-option.active::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: #b48f5f;
+    border-radius: 2px;
+}
+
+.bg-option {
+    position: relative;
+}

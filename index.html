@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUIXIAN TIAN | Digital Craftsman</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Manrope:wght@200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/background.css">
+    <link rel="stylesheet" href="css/features.css">
+    <style>
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: var(--f-display);
+            font-size: clamp(4rem, 11vw, 10rem);
+            line-height: 0.9;
+            font-weight: 300;
+            margin-left: -0.05em;
+        }
+
+        .hero h1 .line-inner { display: block; overflow: hidden; }
+
+        .hero-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5vh;
+            font-size: 1rem;
+            color: var(--c-text-sec);
+            max-width: 600px;
+        }
+
+        .marquee-container {
+            padding: 8vh 0;
+            overflow: hidden;
+            border-top: 1px solid var(--c-line);
+            border-bottom: 1px solid var(--c-line);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .marquee-content {
+            display: flex;
+            gap: 4vw;
+            white-space: nowrap;
+            will-change: transform;
+        }
+
+        .marquee-item {
+            font-family: var(--f-display);
+            font-size: clamp(2rem, 4vw, 5rem);
+            font-style: italic;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            text-transform: uppercase;
+        }
+
+        .marquee-item.solid {
+            color: var(--c-text-main);
+            -webkit-text-stroke: 0;
+        }
+
+        .philosophy {
+            padding: 15vh 0;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+        }
+
+        .philo-text {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .philo-text strong { color: #fff; font-weight: 400; }
+
+        .jp-vertical {
+            font-family: var(--f-jp);
+            writing-mode: vertical-rl;
+            font-size: 2rem;
+            color: var(--c-accent);
+            opacity: 0.8;
+            height: 200px;
+            justify-self: end;
+        }
+
+        .stats-section {
+            padding: 10vh 0;
+            border-top: 1px solid var(--c-line);
+            border-bottom: 1px solid var(--c-line);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item { padding: 30px 0; }
+
+        .stat-num {
+            font-family: var(--f-display);
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .stat-num span { color: var(--c-accent); }
+
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--c-text-sec);
+        }
+
+        .featured-work {
+            padding: 15vh 0;
+        }
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .work-card {
+            position: relative;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: none;
+        }
+
+        .work-card:first-child {
+            grid-column: span 2;
+            aspect-ratio: 21/9;
+        }
+
+        .work-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.6s, transform 0.8s var(--ease-out);
+        }
+
+        .work-card:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .work-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s, transform 0.4s var(--ease-out);
+        }
+
+        .work-card:hover .work-card-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .work-card-title {
+            font-family: var(--f-display);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .work-card-tags {
+            font-size: 0.85rem;
+            color: var(--c-text-sec);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .cta-section {
+            padding: 20vh 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(192, 57, 43, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-title {
+            font-family: var(--f-display);
+            font-size: clamp(3rem, 8vw, 7rem);
+            line-height: 1;
+            margin-bottom: 40px;
+        }
+
+        .services-preview {
+            padding: 10vh 0;
+            border-top: 1px solid var(--c-line);
+        }
+
+        .service-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .service-preview-card {
+            padding: 50px 40px;
+            border: 1px solid var(--c-line);
+            border-radius: 8px;
+            transition: all 0.4s var(--ease-out);
+            cursor: none;
+        }
+
+        .service-preview-card:hover {
+            background: rgba(255,255,255,0.03);
+            border-color: var(--c-accent);
+            transform: translateY(-10px);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .service-preview-title {
+            font-family: var(--f-display);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .service-preview-desc {
+            color: var(--c-text-sec);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .philosophy { grid-template-columns: 1fr; }
+            .jp-vertical { display: none; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .work-grid { grid-template-columns: 1fr; }
+            .work-card:first-child { grid-column: span 1; aspect-ratio: 16/10; }
+            .service-preview-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scroll-progress"></div>
+
+    <div class="preloader">
+        <div class="loader-text">0%</div>
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">GT</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="works.html" class="nav-link">Works</a>
+            <a href="blog.html" class="nav-link">Blog</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <div class="mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="works.html">Works</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <main class="main-content">
+        <section class="hero container">
+            <h1>
+                <span class="line-inner">Weaving logic</span>
+                <span class="line-inner">into <span class="highlight">emotion.</span></span>
+            </h1>
+            <div class="hero-meta">
+                <div class="fade-in">CREATIVE DEVELOPER</div>
+                <div class="fade-in">BASED IN TOKYO</div>
+                <div class="fade-in" style="font-family: var(--f-jp);">創造的な開発者</div>
+            </div>
+        </section>
+
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <span class="marquee-item">Creative Development</span>
+                <span class="marquee-item solid">WebGL Experiences</span>
+                <span class="marquee-item">UI/UX Design</span>
+                <span class="marquee-item solid">Interactive Storytelling</span>
+                <span class="marquee-item">Creative Development</span>
+                <span class="marquee-item solid">WebGL Experiences</span>
+            </div>
+        </div>
+
+        <section class="philosophy container" id="about">
+            <div class="jp-vertical fade-up">デジタル職人</div>
+            <div class="philo-text fade-up">
+                <p>
+                    I am a <strong>Digital Artisan</strong> bridging the gap between design and engineering. In a world of templates, I craft bespoke interactive experiences that breathe.
+                    <br><br>
+                    My approach is rooted in the concept of <em>"Ma" (間)</em>—the space between. It is not just about what is added, but what is left out.
+                </p>
+            </div>
+        </section>
+
+        <section class="stats-section container">
+            <div class="stats-grid">
+                <div class="stat-item fade-up">
+                    <div class="stat-num"><span data-counter="5">0</span>+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-item fade-up">
+                    <div class="stat-num"><span data-counter="50">0</span>+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-item fade-up">
+                    <div class="stat-num"><span data-counter="30">0</span>+</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+                <div class="stat-item fade-up">
+                    <div class="stat-num"><span>∞</span></div>
+                    <div class="stat-label">Cups of Coffee</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-work container">
+            <div class="section-header fade-up">
+                <span class="section-num">01</span>
+                <span class="section-title">Featured Works</span>
+            </div>
+
+            <div class="work-grid">
+                <a href="works.html#void-walker" class="work-card hover-trigger">
+                    <img src="https://images.unsplash.com/photo-1492571350019-22de08371fd3?q=80&w=1600&auto=format&fit=crop" alt="Void Walker">
+                    <div class="work-card-overlay">
+                        <h3 class="work-card-title">Void Walker</h3>
+                        <div class="work-card-tags">Three.js / React / WebGL</div>
+                    </div>
+                </a>
+                <a href="works.html#neon-genesis" class="work-card hover-trigger">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1600&auto=format&fit=crop" alt="Neon Genesis">
+                    <div class="work-card-overlay">
+                        <h3 class="work-card-title">Neon Genesis</h3>
+                        <div class="work-card-tags">Next.js / GLSL / E-Commerce</div>
+                    </div>
+                </a>
+                <a href="works.html#silence-labs" class="work-card hover-trigger">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop" alt="Silence Labs">
+                    <div class="work-card-overlay">
+                        <h3 class="work-card-title">Silence Labs</h3>
+                        <div class="work-card-tags">Vanilla JS / Barba.js / GSAP</div>
+                    </div>
+                </a>
+            </div>
+
+            <div style="text-align: center; margin-top: 60px;">
+                <a href="works.html" class="btn-primary hover-trigger">
+                    View All Works <span class="arrow">→</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="services-preview container">
+            <div class="section-header fade-up">
+                <span class="section-num">02</span>
+                <span class="section-title">What I Do</span>
+            </div>
+
+            <div class="service-preview-grid">
+                <a href="services.html#development" class="service-preview-card hover-trigger fade-up">
+                    <span class="service-icon">⚡</span>
+                    <h3 class="service-preview-title">Creative Development</h3>
+                    <p class="service-preview-desc">Building immersive frontend experiences with React, Next.js, and modern web technologies.</p>
+                </a>
+                <a href="services.html#webgl" class="service-preview-card hover-trigger fade-up">
+                    <span class="service-icon">◈</span>
+                    <h3 class="service-preview-title">WebGL & 3D</h3>
+                    <p class="service-preview-desc">Taking the web into the third dimension with Three.js, custom shaders, and interactive particles.</p>
+                </a>
+                <a href="services.html#design" class="service-preview-card hover-trigger fade-up">
+                    <span class="service-icon">✦</span>
+                    <h3 class="service-preview-title">UI/UX Design</h3>
+                    <p class="service-preview-desc">Designing interfaces that are intuitive yet memorable, with focus on micro-interactions.</p>
+                </a>
+            </div>
+        </section>
+
+        <section class="cta-section container">
+            <h2 class="cta-title fade-up">
+                Let's create<br>
+                <span class="highlight">something iconic.</span>
+            </h2>
+            <a href="contact.html" class="btn-primary hover-trigger magnetic">
+                Start a Project <span class="arrow">→</span>
+            </a>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="f-col">
+                        <h4>Socials</h4>
+                        <ul>
+                            <li><a href="#" class="hover-trigger">Twitter / X</a></li>
+                            <li><a href="#" class="hover-trigger">LinkedIn</a></li>
+                            <li><a href="#" class="hover-trigger">GitHub</a></li>
+                            <li><a href="#" class="hover-trigger">Instagram</a></li>
+                        </ul>
+                    </div>
+                    <div class="f-col">
+                        <h4>Sitemap</h4>
+                        <ul>
+                            <li><a href="index.html" class="hover-trigger">Home</a></li>
+                            <li><a href="works.html" class="hover-trigger">Works</a></li>
+                            <li><a href="services.html" class="hover-trigger">Services</a></li>
+                            <li><a href="about.html" class="hover-trigger">About</a></li>
+                            <li><a href="journal.html" class="hover-trigger">Journal</a></li>
+                        </ul>
+                    </div>
+                    <div class="f-col">
+                        <h4>Location</h4>
+                        <p>Shibuya, Tokyo<br>Japan</p>
+                    </div>
+                    <div class="f-col">
+                        <h4>Time</h4>
+                        <p id="time-display">00:00 JST</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 50px; color: #333; font-size: 0.8rem; display:flex; justify-content:space-between;">
+                    <span>© 2024 GUIXIAN TIAN</span>
+                    <span>BREATH OF CODE</span>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <button class="back-to-top hover-trigger" aria-label="Back to top">↑</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="js/shared.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/skeleton.js"></script>
+    <script src="js/transitions.js"></script>
+    <script src="js/lightbox.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/music.js"></script>
+
+    <script>
+        SharedApp.init();
+        SharedApp.initScrollAnimations();
+        SharedApp.initCounters();
+        SharedApp.initMagneticButtons();
+
+        gsap.to(".marquee-content", {
+            xPercent: -50,
+            repeat: -1,
+            duration: 20,
+            ease: "linear"
+        }).totalProgress(0.5);
+    </script>
+</body>
+</html>

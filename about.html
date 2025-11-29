@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | GUIXIAN TIAN</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Manrope:wght@200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/background.css">
+    <link rel="stylesheet" href="css/features.css">
+    <style>
+        .about-hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            padding: 15vh 0;
+        }
+
+        .about-image-container {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(30%);
+            transition: filter 0.6s;
+        }
+
+        .about-image-container:hover .about-image {
+            filter: grayscale(0%);
+        }
+
+        .about-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(192, 57, 43, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .about-intro h1 {
+            font-family: var(--f-display);
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1;
+            margin-bottom: 40px;
+        }
+
+        .about-intro .tagline {
+            font-family: var(--f-jp);
+            font-size: 1.5rem;
+            color: var(--c-accent);
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .about-intro p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--c-text-sec);
+            margin-bottom: 20px;
+        }
+
+        .about-intro p strong {
+            color: var(--c-text-main);
+        }
+
+        .philosophy-section {
+            padding: 15vh 0;
+            border-top: 1px solid var(--c-line);
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+        }
+
+        .philosophy-title {
+            font-family: var(--f-display);
+            font-size: 3rem;
+            position: sticky;
+            top: 120px;
+        }
+
+        .philosophy-content {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--c-text-sec);
+        }
+
+        .philosophy-content p {
+            margin-bottom: 30px;
+        }
+
+        .philosophy-content em {
+            color: var(--c-text-main);
+            font-style: italic;
+        }
+
+        .values-section {
+            padding: 15vh 0;
+            background: var(--c-bg-alt);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .value-card {
+            padding: 50px 40px;
+            border: 1px solid var(--c-line);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-out);
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--c-accent), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s var(--ease-out);
+        }
+
+        .value-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .value-num {
+            font-family: var(--f-display);
+            font-size: 4rem;
+            color: rgba(255,255,255,0.1);
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+
+        .value-title {
+            font-family: var(--f-display);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .value-desc {
+            color: var(--c-text-sec);
+            line-height: 1.7;
+        }
+
+        .timeline-section {
+            padding: 15vh 0;
+        }
+
+        .timeline {
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100%;
+            background: var(--c-line);
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--c-accent);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            grid-column: 2;
+        }
+
+        .timeline-item:nth-child(even) .timeline-year {
+            grid-column: 1;
+            grid-row: 1;
+            text-align: right;
+        }
+
+        .timeline-year {
+            font-family: var(--f-display);
+            font-size: 4rem;
+            color: rgba(255,255,255,0.2);
+        }
+
+        .timeline-content h3 {
+            font-family: var(--f-display);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content .role {
+            color: var(--c-accent);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+        }
+
+        .timeline-content p {
+            color: var(--c-text-sec);
+            line-height: 1.7;
+        }
+
+        .skills-section {
+            padding: 15vh 0;
+            border-top: 1px solid var(--c-line);
+        }
+
+        .skills-categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .skill-category h3 {
+            font-family: var(--f-display);
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--c-line);
+        }
+
+        .skill-category ul li {
+            padding: 10px 0;
+            color: var(--c-text-sec);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
+        }
+
+        .skill-category ul li:hover {
+            color: var(--c-text-main);
+        }
+
+        .skill-category ul li::before {
+            content: '◈';
+            color: var(--c-accent);
+            font-size: 0.7rem;
+        }
+
+        .personal-section {
+            padding: 15vh 0;
+            background: var(--c-bg-alt);
+        }
+
+        .personal-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .personal-text h2 {
+            font-family: var(--f-display);
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .personal-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--c-text-sec);
+            margin-bottom: 20px;
+        }
+
+        .interests-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .interest-tag {
+            padding: 12px 24px;
+            border: 1px solid var(--c-line);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .interest-tag:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--c-accent);
+        }
+
+        .quote-block {
+            padding: 40px;
+            border-left: 3px solid var(--c-accent);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .quote-block blockquote {
+            font-family: var(--f-display);
+            font-size: 1.5rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .quote-block cite {
+            color: var(--c-text-sec);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .about-hero {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .about-image-container {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .philosophy-title {
+                position: static;
+            }
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-item {
+                grid-template-columns: 1fr;
+                padding-left: 60px;
+            }
+            .timeline-item::before {
+                left: 20px;
+            }
+            .timeline-item:nth-child(even) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-year {
+                grid-column: 1;
+                text-align: left;
+            }
+            .timeline-year {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+            .skills-categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .personal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skills-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scroll-progress"></div>
+
+    <div class="preloader">
+        <div class="loader-text">0%</div>
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">GT</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link active">About</a>
+            <a href="works.html" class="nav-link">Works</a>
+            <a href="blog.html" class="nav-link">Blog</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <div class="mobile-menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="works.html">Works</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <main class="main-content">
+        <section class="about-hero container">
+            <div class="about-image-container fade-up">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" alt="Guixian Tian" class="about-image">
+                <div class="about-image-overlay"></div>
+            </div>
+            <div class="about-intro">
+                <span class="tagline fade-up">デジタル職人</span>
+                <h1 class="fade-up">Guixian Tian</h1>
+                <p class="fade-up">
+                    I'm a <strong>creative developer</strong> based in Tokyo, Japan. For the past 5+ years, I've been crafting digital experiences that blur the line between art and technology.
+                </p>
+                <p class="fade-up">
+                    My journey began in traditional graphic design, but I quickly fell in love with the interactive nature of the web. Today, I specialize in creating <strong>immersive WebGL experiences</strong> and <strong>performant web applications</strong> that leave lasting impressions.
+                </p>
+                <p class="fade-up">
+                    When I'm not coding, you'll find me exploring the backstreets of Tokyo, experimenting with generative art, or perfecting my pour-over coffee technique.
+                </p>
+            </div>
+        </section>
+
+        <section class="philosophy-section container">
+            <div class="philosophy-grid">
+                <h2 class="philosophy-title fade-up">
+                    Philosophy<br>
+                    <span style="font-family: var(--f-jp); font-size: 1.5rem; color: var(--c-accent);">哲学</span>
+                </h2>
+                <div class="philosophy-content fade-up">
+                    <p>
+                        In Japanese aesthetics, there's a concept called <em>"Ma" (間)</em>—the space between. It's not just emptiness; it's a pause that gives meaning to what surrounds it. This principle guides everything I create.
+                    </p>
+                    <p>
+                        I believe that <em>great digital experiences are not about overwhelming users with features</em>, but about creating moments of delight through thoughtful interactions. Every animation, every transition, every micro-interaction should serve a purpose.
+                    </p>
+                    <p>
+                        My approach combines <em>technical precision with artistic intuition</em>. I write clean, performant code not because it's required, but because craftsmanship matters. The user may never see the code, but they'll feel the difference.
+                    </p>
+                    <p>
+                        Above all, I strive to create work that <em>respects both the user's time and attention</em>. In a world of infinite scrolling and attention-grabbing tactics, I choose to build experiences that are meaningful, memorable, and human.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="values-section">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="section-num">01</span>
+                    <span class="section-title">Core Values</span>
+                </div>
+
+                <div class="values-grid">
+                    <div class="value-card fade-up">
+                        <span class="value-num">01</span>
+                        <h3 class="value-title">Craftsmanship</h3>
+                        <p class="value-desc">Every line of code is written with intention. I believe in doing things right, not just doing things fast. Quality is never an accident.</p>
+                    </div>
+                    <div class="value-card fade-up">
+                        <span class="value-num">02</span>
+                        <h3 class="value-title">Simplicity</h3>
+                        <p class="value-desc">Complexity is easy; simplicity is hard. I strive to distill ideas to their essence, removing everything that doesn't serve the user.</p>
+                    </div>
+                    <div class="value-card fade-up">
+                        <span class="value-num">03</span>
+                        <h3 class="value-title">Curiosity</h3>
+                        <p class="value-desc">Technology evolves constantly. I embrace continuous learning, always exploring new tools and techniques to push creative boundaries.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline-section container">
+            <div class="section-header fade-up">
+                <span class="section-num">02</span>
+                <span class="section-title">Journey</span>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item fade-up">
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-content">
+                        <h3>Independent Studio</h3>
+                        <div class="role">Founder & Creative Director</div>
+                        <p>Launched my own creative studio, focusing on high-end WebGL experiences and creative development for global brands and agencies.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item fade-up">
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-content">
+                        <h3>BASCULE Inc.</h3>
+                        <div class="role">Senior Creative Developer</div>
+                        <p>Led frontend development for award-winning interactive campaigns. Specialized in Three.js and GSAP animations for immersive brand experiences.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item fade-up">
+                    <div class="timeline-year">2020</div>
+                    <div class="timeline-content">
+                        <h3>TeamLab</h3>
+                        <div class="role">Frontend Engineer</div>
+                        <p>Developed web interfaces for digital art installations. First deep dive into WebGL and creative coding in a professional setting.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item fade-up">
+                    <div class="timeline-year">2019</div>
+                    <div class="timeline-content">
+                        <h3>Digital Agency Tokyo</h3>
+                        <div class="role">Junior Developer</div>
+                        <p>Started my career building responsive websites and learning the fundamentals of modern web development.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills-section container">
+            <div class="section-header fade-up">
+                <span class="section-num">03</span>
+                <span class="section-title">Skills & Tools</span>
+            </div>
+
+            <div class="skills-categories">
+                <div class="skill-category fade-up">
+                    <h3>Frontend</h3>
+                    <ul>
+                        <li>React / Next.js</li>
+                        <li>TypeScript</li>
+                        <li>Vue.js / Nuxt</li>
+                        <li>Tailwind CSS</li>
+                        <li>Framer Motion</li>
+                    </ul>
+                </div>
+                <div class="skill-category fade-up">
+                    <h3>Creative</h3>
+                    <ul>
+                        <li>Three.js / R3F</li>
+                        <li>GSAP</li>
+                        <li>WebGL / GLSL</li>
+                        <li>Canvas API</li>
+                        <li>Lottie</li>
+                    </ul>
+                </div>
+                <div class="skill-category fade-up">
+                    <h3>Design</h3>
+                    <ul>
+                        <li>Figma</li>
+                        <li>Adobe Creative Suite</li>
+                        <li>Blender</li>
+                        <li>After Effects</li>
+                        <li>Spline</li>
+                    </ul>
+                </div>
+                <div class="skill-category fade-up">
+                    <h3>Backend</h3>
+                    <ul>
+                        <li>Node.js</li>
+                        <li>PostgreSQL</li>
+                        <li>Prisma</li>
+                        <li>Headless CMS</li>
+                        <li>Vercel / AWS</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="personal-section">
+            <div class="container">
+                <div class="personal-grid">
+                    <div class="personal-text fade-up">
+                        <h2>Beyond the Code</h2>
+                        <p>
+                            I believe that the best creative work comes from a life lived fully. Outside of development, I'm passionate about photography, particularly street photography in Tokyo's endless urban landscapes.
+                        </p>
+                        <p>
+                            I'm also an avid reader of science fiction and philosophy, always looking for new perspectives that can inform my creative work. Currently reading: "The Mushroom at the End of the World" by Anna Tsing.
+                        </p>
+
+                        <div class="interests-list">
+                            <span class="interest-tag hover-trigger">Street Photography</span>
+                            <span class="interest-tag hover-trigger">Generative Art</span>
+                            <span class="interest-tag hover-trigger">Coffee</span>
+                            <span class="interest-tag hover-trigger">Sci-Fi Literature</span>
+                            <span class="interest-tag hover-trigger">Vinyl Records</span>
+                            <span class="interest-tag hover-trigger">Architecture</span>
+                        </div>
+                    </div>
+                    <div class="quote-block fade-up">
+                        <blockquote>
+                            "Simplicity is the ultimate sophistication."
+                        </blockquote>
+                        <cite>— Leonardo da Vinci</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section container" style="padding: 15vh 0; text-align: center;">
+            <h2 style="font-family: var(--f-display); font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 30px;" class="fade-up">
+                Interested in working together?
+            </h2>
+            <a href="contact.html" class="btn-primary hover-trigger magnetic">
+                Let's Talk <span class="arrow">→</span>
+            </a>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="f-col">
+                        <h4>Socials</h4>
+                        <ul>
+                            <li><a href="#" class="hover-trigger">Twitter / X</a></li>
+                            <li><a href="#" class="hover-trigger">LinkedIn</a></li>
+                            <li><a href="#" class="hover-trigger">GitHub</a></li>
+                            <li><a href="#" class="hover-trigger">Instagram</a></li>
+                        </ul>
+                    </div>
+                    <div class="f-col">
+                        <h4>Sitemap</h4>
+                        <ul>
+                            <li><a href="index.html" class="hover-trigger">Home</a></li>
+                            <li><a href="works.html" class="hover-trigger">Works</a></li>
+                            <li><a href="services.html" class="hover-trigger">Services</a></li>
+                            <li><a href="about.html" class="hover-trigger">About</a></li>
+                            <li><a href="journal.html" class="hover-trigger">Journal</a></li>
+                        </ul>
+                    </div>
+                    <div class="f-col">
+                        <h4>Location</h4>
+                        <p>Shibuya, Tokyo<br>Japan</p>
+                    </div>
+                    <div class="f-col">
+                        <h4>Time</h4>
+                        <p id="time-display">00:00 JST</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 50px; color: #333; font-size: 0.8rem; display:flex; justify-content:space-between;">
+                    <span>© 2024 GUIXIAN TIAN</span>
+                    <span>BREATH OF CODE</span>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <button class="back-to-top hover-trigger" aria-label="Back to top">↑</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="js/shared.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/skeleton.js"></script>
+    <script src="js/transitions.js"></script>
+    <script src="js/lightbox.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/music.js"></script>
+
+    <script>
+        SharedApp.init();
+        SharedApp.initScrollAnimations();
+        SharedApp.initMagneticButtons();
+    </script>
+</body>
+</html>
